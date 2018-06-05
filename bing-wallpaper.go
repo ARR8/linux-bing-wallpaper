@@ -206,7 +206,9 @@ func check_dbus() {
 }
 
 func set_wallpaper(de, pic string) {
-  // valid options are: none, wallpaper, centered, scaled, stretched, zoom, spanned
+  // valid options for gnome and gnome derivs are: none, wallpaper, centered, scaled, stretched, zoom, spanned
+  // valid options for lxde are: color (that is, disabled), stretch, crop, center, tile, screen
+  // valid options for lxqt are: color (that is, disabled), stretch, crop, center, tile, zoom
   picOpts := "zoom"
 
   log.Println("setting wallpaper for " + de)
@@ -244,11 +246,15 @@ func set_wallpaper(de, pic string) {
   if de == "lxde" {
     _, err := exec.Command("/usr/bin/pcmanfm", "-w", pic).Output()
     check(err)
+    _, err1 := exec.Command("/usr/bin/pcmanfm", "--wallpaper-mode", picOpts).Output()
+    check(err1)
   }
 
   if de == "lxqt" {
     _, err := exec.Command("/usr/bin/pcmanfm-qt", "-w", pic).Output()
     check(err)
+    _, err1 := exec.Command("/usr/bin/pcmanfm-qt", "--wallpaper-mode", picOpts).Output()
+    check(err1)
   }
 
   if de == "xfce" {
